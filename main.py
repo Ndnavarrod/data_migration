@@ -15,7 +15,7 @@ def main():
     if connection.is_connected():
         init_databases(connection)
         load_data_into_mysql(connection, table_name, csv_file, batch_size)
-        sql_query = "SELECT * FROM jobs;"
+        sql_query = "SELECT * FROM jobs  limit 5;"
         cursor.execute(sql_query)
         rows = cursor.fetchall()
         for row in rows:

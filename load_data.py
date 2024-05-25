@@ -3,10 +3,36 @@ import mysql.connector
 
 # Configuration parameters
 
-
+def read_jobs(csv_file):
+    columns_names=['id','job']
+    
+    dtype_dict = {
+        'id': 'int',
+        'job': 'str'  
+    }
+    df = pd.read_csv(csv_file, header=None, names=columns_names, dtype=dtype_dict)
+    return df
+def read_deparments(csv_file):
+    columns_names=['id','department']
+    
+    dtype_dict = {
+        'id': 'int',
+        'department': 'str'  
+    }
+    df = pd.read_csv(csv_file, header=None, names=columns_names, dtype=dtype_dict)
+    return df
+def read_deparments(csv_file):
+    columns_names=['id','department']
+    
+    dtype_dict = {
+        'id': 'int',
+        'department': 'str'  
+    }
+    df = pd.read_csv(csv_file, header=None, names=columns_names, dtype=dtype_dict)
+    return df
 def load_data_into_mysql(connection, table_name, csv_file, batch_size):
     # Read data from CSV file into a pandas DataFrame
-    df = pd.read_csv(csv_file)
+    
 
     # Establish connection to MySQL database
     
