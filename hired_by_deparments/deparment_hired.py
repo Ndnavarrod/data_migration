@@ -21,8 +21,7 @@ def create_connection():
     except Error as e:
         print(f"Error: '{e}'")
     return connection
-
-@app.route('/api/hired_employees', methods=['GET'])
+@app.route('/api/data2', methods=['GET'])
 def get_hired_employees():
     connection = create_connection()
     if connection is None:
@@ -68,4 +67,4 @@ def get_hired_employees():
             connection.close()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=True)
+    app.run(host="0.0.0.0", debug=False)
