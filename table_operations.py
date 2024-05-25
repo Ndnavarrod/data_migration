@@ -7,7 +7,7 @@ def create_table(connection,create_table_query):
     try:
         cursor.execute(create_table_query)
         connection.commit()
-        print("Table 'new_table' created successfully")
+        print("Table created successfully")
     except Error as e:
         print(f"Error: '{e}'")
 
