@@ -6,11 +6,10 @@ def validate_input(df,table_name):
     # Initialize Great Expectations context
     
     if table_name=="hired_employees":
-    
         columns = ['id', 'name','datetime','department_id','job_id']
         ge_df = ge.from_pandas(df)
         ge_df.expect_table_columns_to_match_ordered_list(columns)
-    elif table_name=="deparments":
+    elif table_name=="departments":
         columns = ['id', 'department']
         ge_df = ge.from_pandas(df)
         ge_df.expect_column_values_to_be_of_type("id", "int") 

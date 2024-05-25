@@ -24,7 +24,7 @@ def read_deparments(csv_file):
     df=df.dropna()
     return df
 def read_hired_employees(csv_file):
-    columns_names=['id','name','datetime','deparment_id','job_id']
+    columns_names=['id','name','datetime','department_id','job_id']
     df = pd.read_csv(csv_file, header=None, names=columns_names)
     df=df.dropna()
     df['datetime'] = pd.to_datetime(df['datetime'])
