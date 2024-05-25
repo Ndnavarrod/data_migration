@@ -42,7 +42,7 @@ def list_tables(connection):
 def init_databases(connection):
      if connection:
         # List all tables
-        create_hired_employees= """ CREATE TABLE IF NOT EXISTS hired_employees (   id INT,  name VARCHAR(100),   datetime VARCHAR(100), deparment_id INT, job_id INT); """
+        create_hired_employees= """ CREATE TABLE IF NOT EXISTS hired_employees (   id INT,  name VARCHAR(100),   datetime DATETIME, deparment_id INT, job_id INT); """
         create_deparments= """ CREATE TABLE IF NOT EXISTS deparments (   id INT,  deparment VARCHAR(100)); """
         create_jobs= """ CREATE TABLE IF NOT EXISTS jobs (   id INT,  job VARCHAR(100)); """
         create_table(connection,create_hired_employees)

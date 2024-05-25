@@ -11,6 +11,7 @@ def read_jobs(csv_file):
         'job': 'str'  
     }
     df = pd.read_csv(csv_file, header=None, names=columns_names, dtype=dtype_dict)
+    df=df.dropna()
     return df
 def read_deparments(csv_file):
     columns_names=['id','department']
@@ -20,20 +21,29 @@ def read_deparments(csv_file):
         'department': 'str'  
     }
     df = pd.read_csv(csv_file, header=None, names=columns_names, dtype=dtype_dict)
+    df=df.dropna()
     return df
-def read_deparments(csv_file):
-    columns_names=['id','department']
+def read_hired_employees(csv_file):
+    columns_names=['id','name','datetime','deparment_id','job_id']
     
-    dtype_dict = {
-        'id': 'int',
-        'department': 'str'  
-    }
-    df = pd.read_csv(csv_file, header=None, names=columns_names, dtype=dtype_dict)
+  
+    df = pd.read_csv(csv_file, header=None, names=columns_names)
+    df=df.dropna()
+    df['datetime'] = pd.to_datetime(df['datetime'])
+    df['datetime'] = df['datetime'].dt.tz_convert(None)
+    df.loc[df['name'].str.contains("'"), 'name'] = ""
     return df
 def load_data_into_mysql(connection, table_name, csv_file, batch_size):
-    # Read data from CSV file into a pandas DataFrame
     
-
+    if table_name=="jobs":
+        df=read_jobs(csv_file)
+    elif table_name=="departments":
+        df=read_deparments(csv_file)
+    elif table_name=="hired_employees":
+        df=read_hired_employees(csv_file)
+    else:
+        print("Invalid table name")
+        df=pd.DataFrame()
     # Establish connection to MySQL database
     
     # Create cursor
@@ -52,7 +62,6 @@ def load_data_into_mysql(connection, table_name, csv_file, batch_size):
         # Construct SQL query for batch insertion
         values = ", ".join(["(" + ", ".join([f"'{str(val)}'" for val in row]) + ")" for _, row in batch_df.iterrows()])
         sql = f"INSERT INTO {table_name} VALUES {values}"
-
         # Execute SQL query
         cursor.execute(sql)
 

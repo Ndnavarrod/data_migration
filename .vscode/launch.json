@@ -10,7 +10,7 @@
             "request": "launch",
             "program": "${file}",
             "console": "integratedTerminal",
-            "args": "${command:pickArgs}"
+            "args": ["--table_name","hired_employees","--csv_file","C:/Users/Nelson/Documents/data_migration/inputs/hired_employees.csv","--batch_size","10"]
         }
     ]
 }
