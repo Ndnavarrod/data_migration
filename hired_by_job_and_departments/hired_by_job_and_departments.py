@@ -2,7 +2,8 @@ from flask import Flask, jsonify
 import pandas as pd
 from mysql.connector import Error
 import mysql.connector
-
+from tabulate import tabulate
+import os
 app = Flask(__name__)
 
 def create_connection():
@@ -10,10 +11,10 @@ def create_connection():
     connection = None
     try:
         connection = mysql.connector.connect(
-            host="localhost",
-            user="myuser",
-            password="mypassword",
-            database="mydatabase",
+            host=os.getenv('MYSQL_HOST', 'localhost'),
+            user=os.getenv('MYSQL_USER', 'myuser'),
+            password=os.getenv('MYSQL_PASSWORD', 'mypassword'),
+            database=os.getenv('MYSQL_DB', 'mydatabase'),
             port=3306
         )
         if connection.is_connected():
@@ -21,30 +22,37 @@ def create_connection():
     except Error as e:
         print(f"Error: '{e}'")
     return connection
-@app.route('/api/data2', methods=['GET'])
-def get_hired_employees():
+
+@app.route('/api/data', methods=['GET'])
+def get_data():
     connection = create_connection()
     if connection is None:
         return jsonify({"error": "Failed to connect to the database"}), 500
 
     sql = """
     SELECT 
-        d.id,
         d.department, 
-        COUNT(h.id) as hired
+        j.job,  
+        SUM(CASE WHEN QUARTER(h.datetime) = 1 THEN 1 ELSE 0 END) AS Q1, 
+        SUM(CASE WHEN QUARTER(h.datetime) = 2 THEN 1 ELSE 0 END) AS Q2, 
+        SUM(CASE WHEN QUARTER(h.datetime) = 3 THEN 1 ELSE 0 END) AS Q3,
+        SUM(CASE WHEN QUARTER(h.datetime) = 4 THEN 1 ELSE 0 END) AS Q4  
     FROM 
         hired_employees h
     JOIN
-        departments d ON h.department_id=d.id
+        departments d ON h.department_id = d.id
+    JOIN
+        jobs j ON h.job_id = j.id
     WHERE 
         YEAR(h.datetime) = 2021 
     GROUP BY  
-        d.department,
-        d.id
+        d.department, 
+        j.job
     ORDER BY
-        hired DESC 
+        d.department, 
+        j.job
     """
-    
+
     try:
         cursor = connection.cursor()
         cursor.execute(sql)
@@ -67,4 +75,4 @@ def get_hired_employees():
             connection.close()
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", debug=False)
+    app.run(host="0.0.0.0", port=5000, debug=False)
