@@ -1,4 +1,4 @@
-from flask import Flask, jsonify
+from flask import Flask, jsonify, render_template
 import pandas as pd
 from mysql.connector import Error
 import mysql.connector
@@ -59,7 +59,7 @@ def get_hired_employees():
         df = pd.DataFrame(records, columns=column_names)
         result = df.to_dict(orient='records')
 
-        return jsonify(result)
+        return render_template('table.html', column_names=column_names, records=records)
     except Error as e:
         return jsonify({"error": str(e)}), 500
     finally:
