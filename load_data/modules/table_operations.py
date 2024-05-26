@@ -1,5 +1,6 @@
 from mysql.connector import Error
 import mysql.connector
+import os
 def create_table(connection,create_table_query):
     """Create a new table in the database."""
     
@@ -16,10 +17,10 @@ def create_connection():
     connection = None
     try:
         connection = mysql.connector.connect(
-            host="localhost",
-            user="myuser",
-            password="mypassword",
-            database="mydatabase",
+            host=os.getenv('MYSQL_HOST', 'localhost'),
+            user=os.getenv('MYSQL_USER', 'myuser'),
+            password=os.getenv('MYSQL_PASSWORD', 'mypassword'),
+            database=os.getenv('MYSQL_DB', 'mydatabase'),
             port=3306
         )
         if connection.is_connected():

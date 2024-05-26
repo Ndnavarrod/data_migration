@@ -37,7 +37,7 @@ services:
     depends_on:
       - db
     environment:
-      - MYSQL_HOST=localhost
+      - MYSQL_HOST=db
       - MYSQL_USER=myuser
       - MYSQL_PASSWORD=mypassword
       - MYSQL_DB=mydatabase
