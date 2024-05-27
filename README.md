@@ -99,6 +99,6 @@ Cloud SQL is then connected to BigQuery, solely for analytical tasks such as bui
 
 Consideration: The migration is only with csv files.
 
-Para esta segunda alternativa considerando que unicamente se puede hacer con archivos se busca la creacion de bucket que contenga los archivos CSV, para la aplicacion se puede utilizar un cloud run que utilizaria la misma funcion load data ya creada y dejaria en la base de datos de Cloud SQL para finalmente ser consumida por Bigquery para analisis y los  dashboards de looker.
+For this second alternative, considering that it can only be done with files, the aim is to create a bucket that contains the CSV files. For the application, a Cloud Run can be used that would utilize the same load data function already created and store it in the Cloud SQL database. This data can then be consumed by BigQuery for analysis and Looker dashboards.
 
 <image src="Documentation_images\SecondAlternative.png" caption="Architecture Solution First alterntative"/>
