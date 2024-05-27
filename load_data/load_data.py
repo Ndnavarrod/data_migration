@@ -30,20 +30,20 @@ def load_data():
     except:
         print(" not conection available")
     
-    # try:
-    #     # Initialize databases if not already initialized
-    #     if connection.is_connected():
-    #         init_databases(connection)
+    try:
+        # Initialize databases if not already initialized
+        if connection.is_connected():
+            init_databases(connection)
 
-    #     # Load data into MySQL
-    #     load_data_into_mysql(connection, table_name, csv_file, batch_size)
+        # Load data into MySQL
+        load_data_into_mysql(connection, table_name, csv_file, batch_size)
 
-    #     return jsonify({'message': 'Data loaded successfully'})
-    # except Error as e:
-    #     return jsonify({'error': str(e)}), 500
-    # finally:
-    #     if connection.is_connected():
-    #         connection.close()
+        return jsonify({'message': 'Data loaded successfully'})
+    except Error as e:
+        return jsonify({'error': str(e)}), 500
+    finally:
+        if connection.is_connected():
+            connection.close()
 
 if __name__ == "__main__":
     app.run(host="0.0.0.0", port=5000, debug=True)
